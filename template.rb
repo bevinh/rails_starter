@@ -1,4 +1,3 @@
-gem 'simple_form'
 gem 'bcrypt'
 gem 'rspec-rails', group: [:development, :test]
 gem 'factory_bot_rails', group: [:development, :test]
@@ -13,7 +12,6 @@ puts 'Installing gems'
 
 after_bundle do
   rails_command "db:create"
-  generate "simple_form:install --bootstrap"
   generate "rspec:install"
   insert_into_file "app/views/layouts/application.html.erb", "<div class='container-fluid'>\n", after: "<body>\n"
   insert_into_file "app/views/layouts/application.html.erb", "</div>", before: "</body>\n"
@@ -58,6 +56,45 @@ after_bundle do
   </ol>
 </nav>
 <%%= render "form", <%= singular_table_name %>: @<%= singular_table_name %> %>'
+  end
+  remove_file "lib/templates/erb/scaffold/_form.html.erb"
+  create_file "lib/templates/erb/scaffold/_form.html.erb.tt" do
+   ' <%% if <%= singular_table_name %>.errors.any? %>
+  <%% <%= singular_table_name %>.errors.full_messages.each do |message| %>
+  <div class="alert alert-danger" role="alert">
+    <%%= message %>
+  </div>
+  <%% end %>
+<%% end %>
+<%%= form_with(model: <%= model_resource_name %>, local: true) do |form| -%>
+<div class="card">
+  <h5 class="card-header"><%= singular_table_name.capitalize %></h5>
+  <ul class="list-group list-group-flush">
+<% attributes.reject{|a| a.name == "type" || a.name == "deleted_at" || a.name.end_with?("_count")}.each do |attribute| -%>
+    <li class="list-group-item">
+      <div class="form-group">
+<% if attribute.password_digest? -%>
+        <%%= form.label :password, class: "font-weight-bold" %>
+        <%%= form.password_field :password, placeholder: "Enter password", class: "form-control" %>
+        <%%= form.label :password_confirmation, class: "fw-bold" %>
+        <%%= form.password_field :password_confirmation, placeholder: "Enter password confirmation", class: "form-control" %>
+<% else -%>
+        <%%= form.label :<%= attribute.column_name %>, class: "fw-bold" %>
+        <%%= form.<%= attribute.field_type %> :<%= attribute.column_name %>, placeholder: "Enter <%= attribute.column_name %>", class: "form-control" %>
+<% end -%>
+      </div>
+    </li>
+<% end -%>
+  </ul>
+  <div class="card-footer">
+    <%%= link_to "Cancel", <%= model_resource_name %>, class: "btn btn-outline-secondary float-start" if <%= singular_table_name %>.persisted? %>
+    <%%= link_to "Cancel", <%= index_helper %>_path, class: "btn btn-outline-secondary float-start" if !<%= singular_table_name %>.persisted? %>
+    <%%= form.submit "Save", class: "btn btn-primary float-end" if <%= singular_table_name %>.persisted? %>
+    <%%= form.submit "Create", class: "btn btn-primary float-end" if !<%= singular_table_name %>.persisted? %>
+  </div>
+</div>
+<%% end %>
+'
   end
   create_file "lib/templates/erb/scaffold/new.html.erb.tt" do
     '<nav aria-label="breadcrumb">
@@ -139,7 +176,7 @@ after_bundle do
      "<%= render partial: 'sessions/form' %>"
   end
   generate "controller", "registrations new create"
-  insert_into_file "app/controllers/registrations_controller.rb", "@user = User.new", after: "def new\n"
+  insert_into_file "app/controllers/registrations_controller.rb", " @user = User.new\n", after: "def new\n"
   insert_into_file "app/controllers/registrations_controller.rb", "@user.role = Role.find_by_name('user')", after: "@user = User.new(user_params)"
   remove_file "app/views/registrations/new.html.erb"
   create_file "app/views/registrations/new.html.erb" do
@@ -149,6 +186,22 @@ after_bundle do
   </div>
   '
   end
+  remove_file "app/views/registrations/_form.html.erb"
+  create_file "app/views/users/_form.html.erb" do
+    '<%= form_with(model: user, local: true) do |form| %>
+      <div class="form-floating mb-3">
+        <%= form.email_field :email, class: "form-control", placeholder: "email" %>
+        <%= form.label :email, class: "form-label" %>
+    </div>
+    <div class="form-floating mb-3">
+      <%= form.password_field :password, class: "form-control", placeholder: "password" %>
+      <%= form.label :password, class: "form-label" %>
+    </div>
+    <div class="mt-5">
+      <%= form.submit "Save Changes", class: "btn btn-primary" %>
+    </div>
+    <% end %>'
+    end
   generate "controller", "password_resets new create edit update"
   generate "controller", "admin dashboard"
   generate "controller", "dashboard index"

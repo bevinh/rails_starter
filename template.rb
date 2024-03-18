@@ -140,7 +140,7 @@ after_bundle do
   end
   generate "controller", "registrations new create"
   insert_into_file "app/controllers/registrations_controller.rb", "@user = User.new", after: "def new\n"
-  insert_info_file "app/controllers/registrations_controller.rb", "@user.role = Role.find_by_name('user')", after: "@user = User.new(user_params)"
+  insert_into_file "app/controllers/registrations_controller.rb", "@user.role = Role.find_by_name('user')", after: "@user = User.new(user_params)"
   remove_file "app/views/registrations/new.html.erb"
   create_file "app/views/registrations/new.html.erb" do
       '<div class="p-5">
@@ -153,9 +153,9 @@ after_bundle do
   generate "controller", "admin dashboard"
   generate "controller", "dashboard index"
   route "root 'home#index'"
-  route ('get "session_path", to: "sessions#new", as: "session_path')
-  route ('post "session_path", to: "sessions#create", as "session_path')
-  route ('delete "session_path", to: "sessions#destroy"')
+  route ('get "/sessions/new", to: "sessions#new"')
+  route ('post "/sessions/create", to: "sessions#create"')
+  route ('delete "/sessions/delete", to: "sessions#destroy"')
   route "root 'admin#dashboard'", namespace: "admin"
   rails_command "db:migrate"
   puts "Migration Complete, adding security"

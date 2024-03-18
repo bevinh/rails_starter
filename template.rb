@@ -6,46 +6,17 @@ gem 'shoulda-matchers', group: [:development, :test]
 gem 'database_cleaner-active_record', group: [:development, :test]
 gem 'launchy', group: [:development, :test]
 gem 'webdrivers', group: [:development, :test]
-
-
-puts 'Installing gems'
+def source_paths
+  [__dir__]
+end
 
 after_bundle do
   rails_command "db:create"
   generate "rspec:install"
   insert_into_file "app/views/layouts/application.html.erb", "<div class='container-fluid'>\n", after: "<body>\n"
   insert_into_file "app/views/layouts/application.html.erb", "</div>", before: "</body>\n"
-  create_file "app/views/layouts/_navigation.html.erb" do
-    '<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/"><span class="text-muted">My New App</span><br />
-      <small class="text-muted" style="font-size: 10px">The best app ever</small>
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="nav justify-content-end">
-      <% unless current_user %>
-           <li class="nav-item">
-            <a class="nav-link text-muted" href="/registrations/new">Register</a>
-          </li>
-      
-           <li class="nav-item">
-            <a class="nav-link text-muted" href="/sessions/new">Sign In</a>
-          </li>
-          <% end %>
-           <% if current_user %>
-           <li class="nav-item"><%= link_to "My Profile", edit_user_path(current_user), class: "nav-link text-muted" %>
-           <li class="nav-item"> <%= link_to "Sign Out", "/sessions/destroy", class: "nav-link text-muted", data: { turbo_method: :delete } %></li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-  </nav>'
-  end
-  
-  insert_into_file 'app/views/layouts/application.html.erb', '<%= render partial: "layouts/navigation" %>', before: "<div class='container-fluid'>\n" 
+  copy_file "./files/layout/_navigation.html.erb", "app/views/layouts/_navigation.html.erb"
+  insert_into_file 'app/views/layouts/application.html.erb', "<%= render partial: 'layouts/navigation' %>\n", before: "<div class='container-fluid'>\n" 
   create_file "lib/templates/erb/scaffold/edit.html.erb.tt" do
     '
     <nav aria-label="breadcrumb">

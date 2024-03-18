@@ -176,8 +176,8 @@ after_bundle do
      "<%= render partial: 'sessions/form' %>"
   end
   generate "controller", "registrations new create"
-  insert_into_file "app/controllers/registrations_controller.rb", " @user = User.new\n", after: "def new\n"
-  insert_into_file "app/controllers/registrations_controller.rb", "@user.role = Role.find_by_name('user')", after: "@user = User.new(user_params)"
+  insert_into_file "app/controllers/registrations_controller.rb", "@user = User.new\n
+  @user.role = Role.find_by_name('user')", after: "def new\n"
   remove_file "app/views/registrations/new.html.erb"
   create_file "app/views/registrations/new.html.erb" do
       '<div class="p-5">

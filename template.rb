@@ -109,7 +109,7 @@ after_bundle do
       rails_command "db:seed"
       
 end
-
 # Do some gitting
 git :init
 git add: ".", commit: %(-m 'Initial commit')
+

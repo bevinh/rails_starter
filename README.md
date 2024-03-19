@@ -22,11 +22,11 @@ or you can go into the sites directory and run the installer directly:
 
 I will be adding additional options in the future for colors, other libraries such as devise, noticed, and mailer configuration and potentailly more detailed templates.
 
-\## S3
+## S3
 
 I have included a .env file and Dotenv to configure s3. Use your own credentials to make the s3 storage work.
 
-\## User and Role Model
+## User and Role Model
 
 I have added a User Model with has_secure_password implementation. Users have two configurable roles.
 

@@ -17,7 +17,7 @@ This uses:
 To run the template, you can either simply run:  
 `ruby install.rb`
 
-or you can go into the sites directory and run the installer directly:  
+or you can create and go into a sites directory and run the installer directly:  
 `rails new myApp --database=postgresql -j esbuild --css bootstrap -m ../template.rb`
 
 I will be adding additional options in the future for colors, other libraries such as devise, noticed, and mailer configuration and potentailly more detailed templates.

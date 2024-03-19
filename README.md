@@ -13,6 +13,7 @@ This uses:
 - Faker
 - Rubocop
 - Simplecov
+- Noticed (based on flag)
 
 To run the template, you can either simply run:  
 `ruby install.rb`
@@ -20,7 +21,7 @@ To run the template, you can either simply run:
 or you can create and go into a sites directory and run the installer directly:  
 `rails new myApp --database=postgresql -j esbuild --css bootstrap -m ../template.rb`
 
-I will be adding additional options in the future for colors, other libraries such as devise, noticed, and mailer configuration and potentailly more detailed templates.
+I will be adding additional options in the future for colors, other libraries such as devise, and mailer configuration and potentailly more detailed templates.
 
 ## S3
 

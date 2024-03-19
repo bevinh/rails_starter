@@ -1,3 +1,6 @@
+if ARGV.include? '--add-noticed'
+  gem 'noticed'
+end
 gem 'bcrypt'
 gem 'image_processing'
 gem 'rspec-rails', group: [:development, :test]
@@ -19,6 +22,9 @@ after_bundle do
   rails_command "db:create"
   generate "rspec:install"
   generate "active_storage:install"
+  if ARGV.include? '--add-noticed'
+    rails_command "noticed:install:migrations"
+  end
 
   # Insert into test helper
   insert_into_file "spec/rails_helper.rb", "require 'simplecov'\nSimpleCov.start\n", after: "require 'rspec/rails'\n"
@@ -125,9 +131,10 @@ after_bundle do
       
 
       rails_command "db:seed"
-      
+      # Do some gitting
+      git :init
+      git add: ".", commit: %(-m 'Initial commit')
 end
-# Do some gitting
-git :init
-git add: ".", commit: %(-m 'Initial commit')
+
+
 

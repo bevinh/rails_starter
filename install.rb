@@ -15,19 +15,35 @@ puts <<-'EOF'
    EOF
 puts "WELCOME TO MY RAILS APP INSTALLER".colorize(:color => :light_blue, :mode => :bold)
 puts "This installer will walk you through a number of configuration steps to make it quicker and easier to create Rails Applications.".colorize(:color => :light_blue, :mode => :bold)
-puts "You must have Rails installed to use this installer, if you do not, please install it before continuing."
+puts "You must be able to make changes to your machine. If you are not able to do this, please ask for help.".colorize(:color => :light_blue, :mode => :bold)
+puts "Do you have Homebrew insalled? Enter y for yes or n for no".colorize(:green)
+homebrew_installed = gets.chomp.downcase
+if homebrew_installed == "n"
+  puts "Attempting to Install Homebrew".white.on_red.blink
+  `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+  exit
+end
+puts "Homebrew is installed, continuing with questions..."
+puts "This application installer requires Ruby to be installed. Do you have Ruby installed? Enter y for yes or n for no".colorize(:green)
+ruby_installed = gets.chomp.downcase
+if ruby_installed == "n"
+  puts "Attempting to Install Ruby".white.on_red.blink
+  `brew install ruby`
+  exit
+end
+puts "Ruby is installed, continuing with questions..."
+  puts "You must have Rails installed to use this installer, if you do not, please install it before continuing."
   puts "Do you have Rails installed? Enter y for yes or n for no".colorize(:green)
   rails_installed = gets.chomp.downcase
   if rails_installed == "n"
-    puts "Please install Rails and try again".white.on_red.blink
-    exit
+    puts "Attempting to Install Rails".white.on_red.blink
+    `gem install rails`
   end
 puts "Rails is installed, continuing with questions..."
 puts "Checking Rails Version"
 rails_version = `rails -v`
 if rails_version < "7.0"
-  puts "Please update Rails to version 7.0+ and try again".white.on_red.blink
-  exit
+  `gem install rails -v 7.0.1`
 else 
   puts "Rails is at version 7.0+".colorize(:green)
 end

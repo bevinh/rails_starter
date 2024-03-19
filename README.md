@@ -40,9 +40,7 @@ If you are using the direct installer, you can add the flag --add-noticed to add
 
 I will be adding additional options in the future for colors, other libraries such as devise, and mailer configuration and potentailly more detailed templates.
 
-#
-
-For everything but the MONGOID installs
+# For everything but the MONGOID installs
 
 ## S3
 

@@ -1,4 +1,5 @@
 gem 'bcrypt'
+gem 'image_processing'
 gem 'rspec-rails', group: [:development, :test]
 gem 'factory_bot_rails', group: [:development, :test]
 gem 'faker', group: [:development, :test]
@@ -6,6 +7,9 @@ gem 'shoulda-matchers', group: [:development, :test]
 gem 'database_cleaner-active_record', group: [:development, :test]
 gem 'launchy', group: [:development, :test]
 gem 'webdrivers', group: [:development, :test]
+gem 'simplecov', group: [:test]
+gem 'rubocop', group: [:development]
+gem 'dotenv-rails', groups: [:development, :test]
 
 def source_paths
   [__dir__]
@@ -14,6 +18,19 @@ end
 after_bundle do
   rails_command "db:create"
   generate "rspec:install"
+  generate "active_storage:install"
+
+  # Insert into test helper
+  insert_into_file "spec/rails_helper.rb", "require 'simplecov'\nSimpleCov.start\n", after: "require 'rspec/rails'\n"
+
+  # Change to S3 storage
+  copy_file "./files/config/.env", ".env"
+  remove_file "config/storage.yml"
+  copy_file "./files/config/storage.yml", "config/storage.yml"
+  remove_file "config/environments/development.rb"
+  copy_file "./files/config/development.rb", "config/environments/development.rb"
+  remove_file "config/environments/production.rb"
+  copy_file "./files/config/production.rb", "config/environments/production.rb"
 
   # Templates
   insert_into_file "app/views/layouts/application.html.erb", "<div class='container-fluid'>\n", after: "<body>\n"

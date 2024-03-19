@@ -1,7 +1,7 @@
 puts "Enter the Name of the Application"
 app_name = gets.chomp
 app_name = app_name.downcase.gsub(/\s+/, "_")
-puts "Do you want to add noticed gem for notifications? Enter y for yes, and n for no"
+puts "Do you want to add noticed gem for notifications? Enter y for yes or n for no"
 noticed = gets.chomp.downcase
 
 flags = ""

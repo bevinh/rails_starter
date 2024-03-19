@@ -24,6 +24,7 @@ end
 after_bundle do
   rails_command "db:create"
   generate "rspec:install"
+  
   if ARGV.include? '--use-mongoid'
   generate "mongoid:config"
   else

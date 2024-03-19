@@ -47,7 +47,7 @@ after_bundle do
   # Models
   generate "scaffold", "role name:string"
   generate "scaffold", "User email:string password_digest:string first_name:string last_name:string role:references"
-  insert_into_file "app/models/user.rb", "has_secure_password :password, validations: true", after: "class User < ApplicationRecord\n"
+  insert_into_file "app/models/user.rb", "has_secure_password :password, validations: true\n", after: "class User < ApplicationRecord\n"
   # Controllers
   generate "controller", "home index"
   generate "controller", "sessions new create destroy"

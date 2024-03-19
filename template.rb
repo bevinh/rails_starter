@@ -49,6 +49,7 @@ after_bundle do
   copy_file "./files/config/production.rb", "config/environments/production.rb"
   end
   if ARGV.include? '--use-mongoid'
+    remove_file 'config/application.rb'
     copy_file './files/config/application.rb', 'config/application.rb'
   end
 
@@ -143,10 +144,11 @@ after_bundle do
         insert_into_file "app/controllers/sessions_controller.rb", "session[:user_id] = nil
         cookies[:user_id] = nil
         redirect_to root_url", after: "def destroy\n"
+        rails_command "db:migrate"
+        rails_command "db:seed"
     end
       
-      rails_command "db:migrate"
-      rails_command "db:seed"
+  
       # Do some gitting
       git :init
       git add: ".", commit: %(-m 'Initial commit')

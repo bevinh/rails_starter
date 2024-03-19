@@ -19,7 +19,7 @@
           <% end %>
            <% if current_user %>
            <li class="nav-item"><%= link_to "My Profile", edit_user_path(current_user), class: "nav-link text-muted" %>
-           <li class="nav-item"> <%= link_to "Sign Out", "/sessions/destroy", class: "nav-link text-muted", data: { turbo_method: :delete } %></li>
+           <li class="nav-item"> <%= link_to "Sign Out", "/sessions/delete", class: "nav-link text-muted", data: { turbo_method: :delete } %></li>
           <% end %>
         </ul>
       </div>

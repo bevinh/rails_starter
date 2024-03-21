@@ -97,6 +97,8 @@ if heroku_deploy == "y"
   puts "Do you want to automatically setup heroku to push updates? Enter y for yes or n for no".colorize(:green)
     heroku = gets.chomp.downcase
 end
+puts "Do you want to use Bootstrap for your CSS? Enter y for yes or n for no".colorize(:green)
+bootstrap = gets.chomp.downcase
 
 
 
@@ -111,6 +113,9 @@ elsif database == 2
 elsif database == 3
   flags += " --skip-active-record"
   flags += " --use-mongoid"
+end
+if bootstrap == "y"
+  flags += " --css=bootstrap"
 end
 
 
@@ -127,7 +132,7 @@ Dir.chdir "sites"
 end
 
 # Install the app
-`rails new "#{app_name}" --skip-test --skip-system-test #{database} -j esbuild --css bootstrap -m ../template.rb #{flags}`
+`rails new "#{app_name}" --skip-test --skip-system-test #{database} -j esbuild -m ../template.rb #{flags}`
 `cd "#{app_name}" &&
  bundle install &&`
  if heroku == "y"

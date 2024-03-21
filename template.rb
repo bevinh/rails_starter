@@ -54,19 +54,20 @@ after_bundle do
     copy_file './files/config/application.rb', 'config/application.rb'
   end
 
-  # Templates
-  insert_into_file "app/views/layouts/application.html.erb", "<div class='container-fluid'>\n", after: "<body>\n"
-  insert_into_file "app/views/layouts/application.html.erb", "</div>", before: "</body>\n"
-  copy_file "./files/layout/_navigation.html.erb", "app/views/layouts/_navigation.html.erb"
-  insert_into_file 'app/views/layouts/application.html.erb', "<%= render partial: 'layouts/navigation' %>\n", before: "<div class='container-fluid'>\n" 
+  # Bootstrap Templates
+  if ARGV.include? '--css=bootstrap'
+    insert_into_file "app/views/layouts/application.html.erb", "<div class='container-fluid'>\n", after: "<body>\n"
+    insert_into_file "app/views/layouts/application.html.erb", "</div>", before: "</body>\n"
+    copy_file "./files/layout/bootstrap/_navigation.html.erb", "app/views/layouts/_navigation.html.erb"
+    insert_into_file 'app/views/layouts/application.html.erb', "<%= render partial: 'layouts/navigation' %>\n", before: "<div class='container-fluid'>\n" 
  
-  remove_file "lib/templates/erb/scaffold/_form.html.erb"
-  copy_file "./files/templates/_form.html.erb.tt", "lib/templates/erb/scaffold/_form.html.erb.tt"
-  copy_file "./files/templates/new.html.erb.tt", "lib/templates/erb/scaffold/new.html.erb.tt"
-  copy_file "./files/templates/edit.html.erb.tt", "lib/templates/erb/scaffold/edit.html.erb.tt"
-  copy_file "./files/templates/show.html.erb.tt", "lib/templates/erb/scaffold/show.html.erb.tt"
-  copy_file "./files/templates/index.html.erb.tt", "lib/templates/erb/scaffold/index.html.erb.tt"
- 
+    remove_file "lib/templates/erb/scaffold/_form.html.erb"
+    copy_file "./files/templates/bootstrap/_form.html.erb.tt", "lib/templates/erb/scaffold/_form.html.erb.tt"
+    copy_file "./files/templates/bootstrap/new.html.erb.tt", "lib/templates/erb/scaffold/new.html.erb.tt"
+    copy_file "./files/templates/bootstrap/edit.html.erb.tt", "lib/templates/erb/scaffold/edit.html.erb.tt"
+    copy_file "./files/templates/bootstrap/show.html.erb.tt", "lib/templates/erb/scaffold/show.html.erb.tt"
+    copy_file "./files/templates/bootstrap/index.html.erb.tt", "lib/templates/erb/scaffold/index.html.erb.tt"
+  end
   unless ARGV.include? '--use-mongoid'
      # Models
     generate "scaffold", "role name:string"

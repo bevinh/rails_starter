@@ -33,7 +33,9 @@ This uses:
 To run the template, you can either simply run:  
 `ruby install.rb`
 
-I will be adding additional options in the future for colors, other libraries such as devise, and mailer configuration and potentailly more detailed templates.
+It will ask you a number of questions based on gems and whether you'll be pushing it to Heroku or not.
+
+I will be adding additional options in the future for colors, other libraries such as devise, and mailer configuration and more detailed templates.
 
 # For Postgres & MySQL Installs ONLY
 

@@ -97,9 +97,8 @@ if heroku_deploy == "y"
   puts "Do you want to automatically setup heroku to push updates? Enter y for yes or n for no".colorize(:green)
     heroku = gets.chomp.downcase
 end
-puts "Do you want to use Bootstrap for your CSS? Enter y for yes or n for no".colorize(:green)
-bootstrap = gets.chomp.downcase
-
+puts "Which CSS framework would you like to use? Enter 1 for Bootstrap, 2 for Tailwind, 3 for None".colorize(:green)
+css = gets.chomp.downcase
 
 
 flags = ""
@@ -114,8 +113,11 @@ elsif database == 3
   flags += " --skip-active-record"
   flags += " --use-mongoid"
 end
-if bootstrap == "y"
+
+if css == 1
   flags += " --css=bootstrap"
+elsif css == 2
+  flags += " --css=tailwind"
 end
 
 

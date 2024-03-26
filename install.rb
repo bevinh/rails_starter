@@ -103,6 +103,16 @@ css = gets.chomp.downcase
 puts "Would you like to use Devise or Has Secure Password for Authentication? Enter 1 for Devise, 2 for Has Secure Password, 3 for neither".colorize(:green)
 auth = gets.chomp.to_i
 
+puts "Would you like to use Trestle or Active Admin for Admin Interface? Enter 1 for Trestle, 2 for Active Admin, 3 for neither".colorize(:green)
+admin = gets.chomp.to_i
+
+flags = ""
+if admin == 1
+  flags += " --trestle"
+elsif admin == 2
+  flags += " --active-admin"
+end
+
 if auth == 1
   flags += " --devise"
 elsif auth == 2

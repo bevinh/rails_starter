@@ -7,8 +7,18 @@ end
 if ARGV.include? '--devise'
   gem 'devise'
 end
+if ARGV.include? '--has-secure-password'
+  gem 'bcrypt'
+end
 
-gem 'bcrypt'
+if ARGV.incude? '--trestle'
+  gem 'trestle'
+end
+
+if ARGV.include? '--active-admin'
+  gem 'activeadmin'
+end
+
 gem 'image_processing'
 gem 'rspec-rails', group: [:development, :test]
 gem 'factory_bot_rails', group: [:development, :test]
@@ -38,11 +48,20 @@ after_bundle do
   if ARGV.include? '--add-noticed'
     rails_command "noticed:install:migrations"
   end
+
   if ARGV.include? '--devise'
     generate "devise:install"
     generate "devise User"
     rails_command "generate devise:views"
     insert_into_file "config/environments/development.rb", "config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }\n", after: "config.file_watcher = ActiveSupport::EventedFileUpdateChecker\n"
+  end
+
+  if ARGV.include? '--trestle'
+    generate "trestle:install"
+  end
+
+  if ARGV.include? '--active-admin'
+    generate "active_admin:install"
   end
   # Insert into test helper
   insert_into_file "spec/rails_helper.rb", "require 'simplecov'\nSimpleCov.start\n", after: "require 'rspec/rails'\n"

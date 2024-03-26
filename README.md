@@ -22,6 +22,8 @@ This uses:
 - Postgres, MySQL or MongoDB
 - esbuild
 - Bootstrap or Tailwind
+- Devise or has_secure_password
+- ActiveAdmin or Trestle
 - S3
 - Rspec
 - FactoryBot

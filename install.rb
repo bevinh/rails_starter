@@ -100,6 +100,15 @@ end
 puts "Which CSS framework would you like to use? Enter 1 for Bootstrap, 2 for Tailwind, 3 for None".colorize(:green)
 css = gets.chomp.downcase
 
+puts "Would you like to use Devise or Has Secure Password for Authentication? Enter 1 for Devise, 2 for Has Secure Password, 3 for neither".colorize(:green)
+auth = gets.chomp.to_i
+
+if auth == 1
+  flags += " --devise"
+elsif auth == 2
+  flags += " --has-secure-password"
+end
+
 
 flags = ""
 if noticed == "y"

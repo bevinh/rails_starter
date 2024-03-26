@@ -11,7 +11,7 @@ if ARGV.include? '--has-secure-password'
   gem 'bcrypt'
 end
 
-if ARGV.incude? '--trestle'
+if ARGV.include? '--trestle'
   gem 'trestle'
 end
 

@@ -98,7 +98,7 @@ if heroku_deploy == "y"
     heroku = gets.chomp.downcase
 end
 puts "Which CSS framework would you like to use? Enter 1 for Bootstrap, 2 for Tailwind, 3 for None".colorize(:green)
-css = gets.chomp.downcase
+css = gets.chomp.to_i
 
 puts "Would you like to use Devise or Has Secure Password for Authentication? Enter 1 for Devise, 2 for Has Secure Password, 3 for neither".colorize(:green)
 auth = gets.chomp.to_i
@@ -120,7 +120,6 @@ elsif auth == 2
 end
 
 
-flags = ""
 if noticed == "y"
   flags += " --add-noticed"
 end
@@ -140,6 +139,7 @@ elsif css == 2
 end
 
 
+puts flags
 
 puts "Running Installer, please be patient, this may take awhile..."
 # Create a directory to install the sites
